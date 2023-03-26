@@ -1,0 +1,24 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+        with:
+          host: app.voiceofguru.com
+          username: appvoiceofguru
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 1980
+          rm: true
+          source: "*"
+          target: "/home/appvoiceofguru/public_html/testcpaneldeployment/"
+
+
